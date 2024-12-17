@@ -70,6 +70,7 @@ android {
       cmake {
         cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
         abiFilters (*reactNativeArchitectures())
+        arguments "-DNODE_MODULES_DIR=${rootDir}/../node_modules" // TODO: check migration
       }
     }
   }
@@ -97,6 +98,11 @@ android {
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+
+  packagingOptions {
+      pickFirst "**/libencoder_bridge.so"
   }
 
   sourceSets {
