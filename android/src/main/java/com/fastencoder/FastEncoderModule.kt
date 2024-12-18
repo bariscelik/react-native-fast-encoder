@@ -1,5 +1,8 @@
 package com.fastencoder
 
+import android.util.Log
+import androidx.annotation.NonNull
+
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.annotations.ReactModule
 
@@ -7,6 +10,7 @@ import com.facebook.react.module.annotations.ReactModule
 class FastEncoderModule(reactContext: ReactApplicationContext) :
   NativeFastEncoderSpec(reactContext) {
 
+    val TAG = "[FastEncoderModule]"
     external fun initialize(jsiPtr: Long);
     external fun destruct();
   
@@ -14,10 +18,10 @@ class FastEncoderModule(reactContext: ReactApplicationContext) :
       init {
         System.loadLibrary("fast-encoder")
       }
+      const val NAME = "FastEncoder"
     }
     
-  @ReactMethod(isBlockingSynchronousMethod = true)
-  fun install(): Boolean {
+  override fun install(): Boolean {
     Log.d(TAG, "installing2")
     try {
       val contextHolder = this.reactApplicationContext.javaScriptContextHolder!!.get()
@@ -40,9 +44,5 @@ class FastEncoderModule(reactContext: ReactApplicationContext) :
 
   override fun onCatalystInstanceDestroy() {
     destruct();
-  }
-
-  companion object {
-    const val NAME = "FastEncoder"
   }
 }
